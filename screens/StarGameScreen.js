@@ -1,7 +1,34 @@
-import { TextInput, View, StyleSheet } from 'react-native'
+import { TextInput, View, StyleSheet, Alert } from 'react-native'
+import { useState } from 'react'
+
 import PrimaryButton from "../components/PrimaryButton"
 
 export default function StarGameScreen() {
+  const [enteredNumber, setEnteredNumber] = useState('')
+
+  function inputNumberHandler(enteredText) {
+    setEnteredNumber(enteredText)
+  }
+
+  function resetInputHandler() {
+    setEnteredNumber("")
+  }
+
+  function confirmInputHandler() {
+    const chosenNumber = parseInt(enteredNumber)
+
+    if (isNaN(chosenNumber) || chosenNumber < 0 || chosenNumber > 99) {
+      Alert.alert(
+        "Invalid number!",
+        "Number has to be between 0 and 99",
+        [{ text: "Okay", style: "destructive", onPress: resetInputHandler }]
+      );
+      return;
+    }
+
+    console.log("Valid number!")
+  }
+
   return (
     <View style={styles.inputContainer}>
       <TextInput
@@ -10,15 +37,24 @@ export default function StarGameScreen() {
         keyboardType="number-pad"
         autoCapitalize='none'
         autoCorrect={false}
+        onChangeText={inputNumberHandler}
+        value={enteredNumber}
       />
-      <PrimaryButton>Reset</PrimaryButton>
-      <PrimaryButton>Confirm</PrimaryButton>
+      <View style={styles.buttonGroup}>
+        <View style={styles.button}>
+          <PrimaryButton onPress={resetInputHandler}>Reset</PrimaryButton>
+        </View>
+        <View style={styles.button}>
+          <PrimaryButton onPress={confirmInputHandler}>Confirm</PrimaryButton>
+        </View>
+      </View>
     </View>
   )
 }
 
 const styles = StyleSheet.create({
   inputContainer: {
+    alignItems: 'center',
     marginTop: 100,
     marginHorizontal: 24,
     padding: 16,
@@ -40,5 +76,12 @@ const styles = StyleSheet.create({
     color: "#ddb526",
     marginVertical: 8,
     fontWeight: "bold"
+  },
+  buttonGroup: {
+    flexDirection: "row",
+  },
+  button: {
+    flex: 1,
+    marginTop: 20
   }
 })
