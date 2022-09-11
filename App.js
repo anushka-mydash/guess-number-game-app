@@ -6,7 +6,7 @@ import { useState } from 'react';
 import { useFonts } from 'expo-font'
 import * as SplashScreen from 'expo-splash-screen';
 
-import StartGameScreen from './screens/StarGameScreen'
+import StartGameScreen from './screens/StartGameScreen'
 import GameScreen from './screens/GameScreen'
 import GameOverScreen from './screens/GameOverScreen'
 
@@ -16,6 +16,7 @@ SplashScreen.preventAutoHideAsync();
 
 export default function App() {
   const [userNumber, setUserNumber] = useState();
+  const [roundsNumber, setRoundsNumber] = useState(0);
   const [isGameOver, setIsGameOver] = useState(true);
 
   const [fontsLoaded] = useFonts({
@@ -39,8 +40,14 @@ export default function App() {
     setIsGameOver(false)
   }
 
-  function GameOverHandler() {
+  function GameOverHandler(rounds) {
+    setRoundsNumber(rounds)
     setIsGameOver(true)
+  }
+
+  function startNewGame() {
+    setUserNumber(null)
+    setRoundsNumber(0)
   }
 
   let screen = <StartGameScreen onPickNumber={pickNumberHandler} />
@@ -50,7 +57,11 @@ export default function App() {
   }
 
   if (isGameOver && userNumber) {
-    screen = <GameOverScreen />
+    screen = <GameOverScreen
+      userNumber={userNumber}
+      roundsNumber={roundsNumber}
+      onStartNewGame={startNewGame}
+    />
   }
 
   return (

@@ -8,7 +8,7 @@ import InstructionText from '../components/ui/InstructionText'
 
 import Colors from "../constants/colors"
 
-export default function StarGameScreen({ onPickNumber }) {
+export default function StartGameScreen({ onPickNumber }) {
   const [enteredNumber, setEnteredNumber] = useState('')
 
   function inputNumberHandler(enteredText) {
@@ -69,7 +69,8 @@ const styles = StyleSheet.create({
   },
   numberInput: {
     height: 50,
-    width: 50,
+    width: 100,
+    marginBottom: 30,
     textAlign: 'center',
     fontSize: 32,
     borderBottomColor: Colors.accent500,
