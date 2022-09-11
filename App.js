@@ -1,15 +1,18 @@
+import { useCallback } from 'react'
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, ImageBackground, SafeAreaView } from 'react-native';
+import { StyleSheet, ImageBackground, SafeAreaView, View } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useState } from 'react';
 import { useFonts } from 'expo-font'
-import AppLoading from 'expo-app-loading';
+import * as SplashScreen from 'expo-splash-screen';
 
 import StartGameScreen from './screens/StarGameScreen'
 import GameScreen from './screens/GameScreen'
 import GameOverScreen from './screens/GameOverScreen'
 
 import Colors from './constants/colors'
+
+SplashScreen.preventAutoHideAsync();
 
 export default function App() {
   const [userNumber, setUserNumber] = useState();
@@ -20,8 +23,15 @@ export default function App() {
     'open-sans-bold': require('./assets/fonts/OpenSans-Bold.ttf')
   })
 
+
+  const onLayoutRootView = useCallback(async () => {
+    if (fontsLoaded) {
+      await SplashScreen.hideAsync();
+    }
+  }, [fontsLoaded]);
+
   if (!fontsLoaded) {
-    return <AppLoading />
+    return null;
   }
 
   function pickNumberHandler(pickedNumber) {
@@ -44,20 +54,25 @@ export default function App() {
   }
 
   return (
-    <LinearGradient
-      colors={[Colors.primary700, Colors.accent500]}
+    <View
+      onLayout={onLayoutRootView}
       style={styles.rootScreen}
     >
-      <StatusBar style={"light"} />
-      <ImageBackground
-        source={require("./assets/images/background.jpg")}
-        resizeMode="cover"
+      <LinearGradient
+        colors={[Colors.primary700, Colors.accent500]}
         style={styles.rootScreen}
-        imageStyle={styles.imgBackground}
       >
-        <SafeAreaView style={styles.rootScreen}>{screen}</SafeAreaView>
-      </ImageBackground>
-    </LinearGradient>
+        <StatusBar style={"light"} />
+        <ImageBackground
+          source={require("./assets/images/background.jpg")}
+          resizeMode="cover"
+          style={styles.rootScreen}
+          imageStyle={styles.imgBackground}
+        >
+          <SafeAreaView style={styles.rootScreen}>{screen}</SafeAreaView>
+        </ImageBackground>
+      </LinearGradient>
+    </View>
   );
 }
 
