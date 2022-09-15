@@ -25,7 +25,8 @@ export default function GameOverScreen({ roundsNumber, userNumber, onStartNewGam
   }
 
   return (
-    <ScrollView style={styles.screen}>
+    <ScrollView style={[styles.screen,
+    { paddingTop: height < 400 ? 0 : 50 }]}>
       <View style={styles.rootContainer}>
         <Title>GAME OVER</Title>
         <View style={[styles.imageContainer, imageStyle]}>
@@ -49,7 +50,7 @@ export default function GameOverScreen({ roundsNumber, userNumber, onStartNewGam
 
 const styles = StyleSheet.create({
   screen: {
-    flex: 1
+    flex: 1,
   },
   rootContainer: {
     flex: 1,

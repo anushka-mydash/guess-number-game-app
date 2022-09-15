@@ -65,25 +65,27 @@ export default function App() {
   }
 
   return (
-    <View
-      onLayout={onLayoutRootView}
-      style={styles.rootScreen}
-    >
-      <LinearGradient
-        colors={[Colors.primary700, Colors.accent500]}
+    <>
+      <StatusBar style={"light"} />
+      <View
+        onLayout={onLayoutRootView}
         style={styles.rootScreen}
       >
-        <StatusBar style={"light"} />
-        <ImageBackground
-          source={require("./assets/images/background.jpg")}
-          resizeMode="cover"
+        <LinearGradient
+          colors={[Colors.primary700, Colors.accent500]}
           style={styles.rootScreen}
-          imageStyle={styles.imgBackground}
         >
-          <SafeAreaView style={styles.rootScreen}>{screen}</SafeAreaView>
-        </ImageBackground>
-      </LinearGradient>
-    </View>
+          <ImageBackground
+            source={require("./assets/images/background.jpg")}
+            resizeMode="cover"
+            style={styles.rootScreen}
+            imageStyle={styles.imgBackground}
+          >
+            <SafeAreaView style={styles.rootScreen}>{screen}</SafeAreaView>
+          </ImageBackground>
+        </LinearGradient>
+      </View>
+    </>
   );
 }
 
